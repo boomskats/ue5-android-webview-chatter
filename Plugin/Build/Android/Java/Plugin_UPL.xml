@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Init section is always evaluated once per architecture -->
+    <init>
+        <log text="WebViewPlugin Android Build init"/>
+    </init>
+
+    <!-- Optional updates to the AndroidManifest.xml -->
+    <androidManifestUpdates>
+        <addPermission android:name="android.permission.INTERNET"/>
+        <addPermission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    </androidManifestUpdates>
+
+    <!-- Optional additions to proguard -->
+    <proguardAdditions>
+        <insert>
+            -keep class com.boomskats.webviewplugin.** { *; }
+        </insert>
+    </proguardAdditions>
+
+    <!-- Optional additions to the GameActivity class in the project's Android Java source -->
+    <gameActivityClassAdditions>
+        <insert>
+            // WebViewPlugin additions
+            private com.boomskats.webviewplugin.JavaWebViewBridge mJavaWebViewBridge;
+            private android.webkit.WebView mWebView;
+
+            public void initWebView() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mWebView = new android.webkit.WebView(GameActivity_UEDelegate.this);
+                        mWebView.getSettings().setJavaScriptEnabled(true);
+                        mJavaWebViewBridge = new com.boomskats.webviewplugin.JavaWebViewBridge(GameActivity_UEDelegate.this, mWebView);
+                        mWebView.addJavascriptInterface(mJavaWebViewBridge, "AndroidBridge");
+                        // Add WebView to your layout or use it as needed
+                    }
+                });
+            }
+
+            public native void nativeOnMessageFromWeb(String message);
+        </insert>
+    </gameActivityClassAdditions>
+
+    <!-- Optional additions to the GameActivity onCreate in the project's Android Java source -->
+    <gameActivityOnCreateAdditions>
+        <insert>
+            initWebView();
+        </insert>
+    </gameActivityOnCreateAdditions>
+
+    <!-- Optional additions to the GameActivity onDestroy in the project's Android Java source -->
+    <gameActivityOnDestroyAdditions>
+        <insert>
+            if (mWebView != null) {
+                mWebView.destroy();
+            }
+        </insert>
+    </gameActivityOnDestroyAdditions>
+</root>

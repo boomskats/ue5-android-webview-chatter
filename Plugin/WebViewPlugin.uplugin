@@ -1,0 +1,32 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Android WebView Comms Plugin",
+	"Description": "This plugin lets you send messages to ue on android from a webapp loaded in a webview",
+	"Category": "Other",
+	"CreatedBy": "Boomskats",
+	"CreatedByURL": "https://github.com/boomskats",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "WebViewPlugin",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "AndroidDeviceProfileSelector",
+			"Enabled": true
+		}
+	]
+}
+
+
